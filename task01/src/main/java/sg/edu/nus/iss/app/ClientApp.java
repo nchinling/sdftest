@@ -8,13 +8,16 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.Arrays;
+
 import static sg.edu.nus.iss.app.Calculator.*;
-
-
 
 public class ClientApp {
     public static void main(String[] args){
         
+        String name = "Ng Chin Ling";
+        String email = "nchinling@gmail.com";
+       
         // String[] arrSplit = args[0].split(" ");
         String serverName = args[0];
         String serverPort = args[1];
@@ -47,35 +50,25 @@ public class ClientApp {
                     }
                 else{dos.writeUTF("Error. They are not entirely numbers.");}
                 
+                Calculator calc = new Calculator();
+                //Method is in Calculator class in Calculator.java
+                double mean = calc.getMean(numbersFromServer);
+                double sd = calc.getSd(numbersFromServer);
 
-                //Method is in Calculator class. Need to convert result to double.
-                double mean = getMean(numbersFromServer);
+                //send to server
+                dos.writeUTF(name);
+                dos.flush();
+                dos.writeUTF(email);
+                dos.flush();
 
-                for(int j = 0; j<double.length; j++)
-                {
-                    System.out.println(double[j]);
-                } 
+                //convert mean to string to be sent to server.
+                String meanString = String.valueOf(mean);
+                dos.writeUTF("Received mean: " + meanString);
+                dos.flush();
 
-                //     System.out.println("It works here1.\n");
-                //     int[] result = getNumSort(numbersFromServer);
-
-                //     System.out.println("It works here2.\n");
-                //     for(int i = 0; i<result.length; i++)
-                //     {
-                //         System.out.println(result[i]);
-                //     } 
-
-                String response = dis.readUTF();
-                if(response.contains("Sorted result is")){
-                    String[] numberValArr = response.split("_");
-                    System.out.printf("The server returned %s\n",numberValArr[1]);
-
-                }else{
-                    System.err.println(response);
-                }
-
-
-                dos.writeUTF(response);
+                //convert sd to string to be sent to server.
+                String sdString = String.valueOf(sd);
+                dos.writeUTF("Received standard deviation: " + sdString);
                 dos.flush();
 
                 is.close();
@@ -86,8 +79,6 @@ public class ClientApp {
 
         }
                 
-                
-    
         } catch(UnknownHostException e){
             e.printStackTrace();
         }catch(NumberFormatException e){
