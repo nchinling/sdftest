@@ -5,10 +5,13 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Arrays;
+
 
 import static sg.edu.nus.iss.app.Calculator.*;
 
@@ -34,13 +37,16 @@ public class ClientApp {
                 // Get the input data from the server program
                 InputStream is = sock.getInputStream();
                 DataInputStream dis = new DataInputStream(is);
+                ObjectInputStream ois = new ObjectInputStream(dis);
 
                 // Write and response
                 OutputStream os = sock.getOutputStream();
                 DataOutputStream dos = new DataOutputStream(os);
-                
+                ObjectOutputStream oos = new ObjectOutputStream(dos);
+              
                 //Read data from server. 
-                String numbersFromServer = dis.readUTF();
+                String numbersFromServer = ois.readUTF();
+                System.out.printf("The numbers are %s\n", numbersFromServer);
                
                 //to verify that the string are valid characters. 
                 for (int i = 0; i < numbersFromServer.length(); i++) {
@@ -56,20 +62,20 @@ public class ClientApp {
                 double sd = calc.getSd(numbersFromServer);
 
                 //send to server
-                dos.writeUTF(name);
-                dos.flush();
-                dos.writeUTF(email);
-                dos.flush();
+                oos.writeUTF(name);
+                oos.flush();
+                oos.writeUTF(email);
+                oos.flush();
 
                 //convert mean to string to be sent to server.
                 String meanString = String.valueOf(mean);
-                dos.writeUTF("Received mean: " + meanString);
-                dos.flush();
+                oos.writeUTF("Received mean: " + meanString);
+                oos.flush();
 
                 //convert sd to string to be sent to server.
                 String sdString = String.valueOf(sd);
-                dos.writeUTF("Received standard deviation: " + sdString);
-                dos.flush();
+                oos.writeUTF("Received standard deviation: " + sdString);
+                oos.flush();
 
                 is.close();
                 os.close();
