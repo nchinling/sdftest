@@ -9,7 +9,7 @@ package sg.edu.nus.iss.app;
 
 public class Calculator {
     
-    public double getMean(String data){
+    public float getMean(String data){
         
         //Split string using commas as delimiter and place in arrayNumbers. 
         String[] numbers = data.split(",");
@@ -40,13 +40,13 @@ public class Calculator {
        
     }
 
-    public double getSd(String data){
+    public float getSd(String data){
 
-        double sum = 0.0;
-        double mean = 0.0;
-        double sq = 0.0;
-        double var = 0;
-        double sd = 0;
+        float sum = 0f;
+        float mean = 0f;
+        float sq = 0f;
+        float var = 0f;
+        float sd = 0f;
         
         //Split string using commas as delimiter and place in arrayNumbers. 
         String[] numbers = data.split(",");
@@ -55,9 +55,9 @@ public class Calculator {
         // List<String> numString = new ArrayList<String>();
         // numString = Arrays.asList(numbers);
 
-        double[] arrayNumbers = new double[100];
+        float[] arrayNumbers = new float[100];
             for (int i = 0; i < numbers.length; i++ ) {
-                arrayNumbers[i] = Double.parseDouble(numbers[i]);
+                arrayNumbers[i] = Float.parseFloat(numbers[i]);
             }
            
             for (int i = 0; i < arrayNumbers.length; i++) {
@@ -68,11 +68,11 @@ public class Calculator {
      
             for (int i = 0; i < arrayNumbers.length; i++) {
                 var
-                = var + Math.pow((arrayNumbers[i] - mean), 2);
+                = (float) (var + Math.pow((arrayNumbers[i] - mean), 2));
             }
        
         sq = var / arrayNumbers.length;
-        sd = Math.sqrt(sq);
+        sd = (float) Math.sqrt(sq);
         return sd;
      
     }

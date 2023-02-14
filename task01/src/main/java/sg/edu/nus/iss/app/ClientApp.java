@@ -58,8 +58,8 @@ public class ClientApp {
                 
                 Calculator calc = new Calculator();
                 //Method is in Calculator class in Calculator.java
-                double mean = calc.getMean(numbersFromServer);
-                double sd = calc.getSd(numbersFromServer);
+                float mean = calc.getMean(numbersFromServer);
+                float sd = calc.getSd(numbersFromServer);
 
                 //send to server
                 oos.writeUTF(name);
@@ -67,14 +67,16 @@ public class ClientApp {
                 oos.writeUTF(email);
                 oos.flush();
 
-                //convert mean to string to be sent to server.
-                String meanString = String.valueOf(mean);
-                oos.writeUTF("Received mean: " + meanString);
+                //push to ObjectOutputStream
+                oos.writeUTF("Received mean: ");
+                oos.flush();
+                oos.writeFloat(mean);
                 oos.flush();
 
-                //convert sd to string to be sent to server.
-                String sdString = String.valueOf(sd);
-                oos.writeUTF("Received standard deviation: " + sdString);
+                //push to ObjectOutputStream
+                oos.writeUTF("Received standard deviation: ");
+                oos.flush();
+                oos.writeFloat(sd);
                 oos.flush();
 
                 is.close();
