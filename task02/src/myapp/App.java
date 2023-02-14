@@ -17,7 +17,7 @@ public class App {
 
         //Use File.listFiles() to read directory of all files. 
         // try-catch block to handle exceptions
-        try {
+        // try {
   
             // Create a file object
             File f = new File(args[0]);
@@ -26,24 +26,15 @@ public class App {
             File[] files = f.listFiles();
   
             System.out.println("Files are:");
+            
             TextStats text = new TextStats();
-  
-            // Display the names of the files
-            for (int i = 0; i < files.length; i++) {
-                System.out.println(files[i].getName());
-                // TextStats text = new TextStats();
-                // text.process(files[i].getName());
-            }
-        }
-        catch (Exception e) {
-            System.err.println(e.getMessage());
-        }
 
-        // TextStats text = new TextStats(args[0]);
-        // text.process(args[0]);
-
-
-
+            String[] names = new String[files.length];
+                for (int i = 0; i < files.length; i++) {
+                names[i] = files[i].getName();
+                System.out.println(names[i]);
+                text.process(names[i]);
+                }
 
     }
 }
