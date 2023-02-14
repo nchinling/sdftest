@@ -50,12 +50,11 @@ public class TextStats {
         int numWords = 0;
 
         List wordList;
-        ArrayList aListWords;
+        ArrayList arrListWords;
 
         while ((line = br.readLine()) != null) {    //store line as strings as a string
             System.out.printf("> %s\n", line.toUpperCase());
 
-            //remove stopwords
 
             //Remove stopwords
             line = line.replace("."," ");
@@ -68,13 +67,23 @@ public class TextStats {
             line = line.replace("'"," ");
             line = line.replace("\"", " ");
             line = line.replace("?", " ");
+            line = line.replace(">", " ");
 
             //place in String array
             String[] words = line.split(" ");  
             wordList = Arrays.asList(words);
-            aListWords = new ArrayList(wordList);
+            arrListWords = new ArrayList(wordList);
 
             numWords += words.length;
+
+            //pseudocode to calculate probability
+            //1. Store the text in an ArrayList (dynamic size).
+            //2. Iterate through ArrayList.
+            //3. Store every 2 words in ArrayList in a Map. A counter will increment each time same 2 words is encountered.
+            //4. Using Map, perform calculation to obtain next word probability
+            //   using following:
+            // -> Probability of next word = 
+            //    freq. of the specific 2 words / total count which preceding word as root word.  
 
             // Iterate the all the words in the line
             for (String w: words) {
@@ -91,17 +100,21 @@ public class TextStats {
                     wordFreq.put(t, c + 1);
                 }
                 //place word in ArrayList
-                aListWords.add(t);
-            }
+                arrListWords.add(t);
 
-                for (int i = 0; i < aListWords.size();i++) 
-                { 		      
-                System.out.println(aListWords.get(i)); 		
-                }   
+            } 
+
+        //print a word and corresponding next word in appropriate format. 
+            // for (int i = 0; i < arrListWords.size(); i++) 
+            // { 		      
+            // System.out.println(arrListWords.get(i));
+            // System.out.printf("    " + "%s\n" ,arrListWords.get(i+1)); 
+            // }   
+
         }
 
 
-        //
+
 
 
         // Get a list of all the words and store it in a set. Map.keySet() returns
